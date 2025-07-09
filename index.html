@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Perasaan Romantis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background Elements */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.2);
+            animation: float 15s infinite linear;
+        }
+
+        /* Container Styles */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(30, 41, 59, 0.85);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Login Page Styles */
+        .login-page, .love-page {
+            display: none;
+        }
+
+        .active-page {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        /* Logo Styles */
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo i {
+            font-size: 4rem;
+            color: #e84393;
+            background: rgba(255, 255, 255, 0.1);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 40px rgba(232, 67, 147, 0.6);
+        }
+
+        .logo h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(to right, #e84393, #fd79a8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo p {
+            color: #94a3b8;
+            margin-top: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.3rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px 16px 60px;
+            border-radius: 18px;
+            border: 2px solid #334155;
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #e84393;
+            outline: none;
+            box-shadow: 0 0 20px rgba(232, 67, 147, 0.6);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Button Styles */
+        .btn-login, .btn-back {
+            background: linear-gradient(45deg, #e84393, #fd79a8);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border-radius: 18px;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(232, 67, 147, 0.5);
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-login:hover, .btn-back:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(232, 67, 147, 0.7);
+        }
+
+        .btn-login:before, .btn-back:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: 0.6s;
+        }
+
+        .btn-login:hover:before, .btn-back:hover:before {
+            left: 100%;
+        }
+
+        /* Love Page Styles */
+        .heart-container {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .heart {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            background: #e84393;
+            transform: rotate(45deg);
+            box-shadow: 0 0 60px rgba(232, 67, 147, 0.7);
+            animation: heartbeat 1.4s infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: #e84393;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -70px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -70px;
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+            padding: 35px;
+            margin: 35px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(232, 67, 147, 0.25);
+            backdrop-filter: blur(5px);
+        }
+
+        .message p {
+            font-size: 1.5rem;
+            line-height: 1.9;
+            margin-bottom: 25px;
+            font-style: italic;
+            text-align: center;
+            color: #f8f9fa;
+        }
+
+        .message .signature {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #fd79a8;
+            margin-top: 25px;
+            text-align: right;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .question {
+            font-size: 2.3rem;
+            margin: 40px 0;
+            color: #fd79a8;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin: 45px 0;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            font-size: 1.4rem;
+            border-radius: 55px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.6s;
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #55efc4, #00b894);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-6px) scale(1.06);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-no {
+            background: linear-gradient(45deg, #ff7675, #d63031);
+            color: white;
+            transition: transform 0.1s ease;
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart-shape {
+            position: absolute;
+            font-size: 2.5rem;
+            color: rgba(232, 67, 147, 0.7);
+            animation: falling 12s linear infinite;
+        }
+
+        /* Form WhatsApp */
+        .whatsapp-form {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+            padding: 35px;
+            margin: 35px 0 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            backdrop-filter: blur(5px);
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .whatsapp-form h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .form-group-wa {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group-wa label {
+            display: block;
+            margin-bottom: 12px;
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+
+        .form-group-wa input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 18px;
+            border: 2px solid #334155;
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group-wa input:focus {
+            border-color: #25D366;
+            outline: none;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .btn-wa {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border-radius: 18px;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-wa:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(37, 211, 102, 0.6);
+        }
+
+        .btn-wa:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.6s;
+        }
+
+        .btn-wa:hover:before {
+            left: 100%;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(25px, 25px);
+            }
+            50% {
+                transform: translate(0, 50px);
+            }
+            75% {
+                transform: translate(-25px, 25px);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(1.12); }
+        }
+
+        @keyframes falling {
+            0% { 
+                transform: translateY(-60px) rotate(0deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 35px;
+            right: 35px;
+            background: #10b981;
+            color: white;
+            padding: 20px 35px;
+            border-radius: 15px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 1.2rem;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #ef4444;
+        }
+
+        .notification i {
+            font-size: 1.8rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+            
+            .logo p {
+                font-size: 1.1rem;
+            }
+            
+            .message p {
+                font-size: 1.3rem;
+            }
+            
+            .question {
+                font-size: 1.8rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 16px;
+                font-size: 1.3rem;
+            }
+            
+            .whatsapp-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Floating hearts for love page -->
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <!-- Login Page -->
+        <div class="login-page active-page" id="login-page">
+            <div class="logo">
+                <i class="fas fa-heart"></i>
+                <h1>Portal Perasaan</h1>
+                <p>Masuk untuk menyampaikan perasaanmu</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Masukkan username" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Masukkan password" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Masuk ke Portal Perasaan
+                </button>
+            </form>
+        </div>
+        
+        <!-- Love Page -->
+        <div class="love-page" id="love-page">
+            <div class="logo">
+                <i class="fas fa-heart"></i>
+                <h1>Penyampaian Perasaan</h1>
+                <p>Selamat datang, <span id="username-display">Pengguna</span>!</p>
+            </div>
+            
+            <div class="heart-container">
+                <div class="heart"></div>
+            </div>
+            
+            <div class="message">
+                <p>
+                    "Setiap kali aku melihatmu, hatiku berdetak lebih kencang. Setiap senyummu membuat hariku lebih cerah. 
+                    Aku tidak pernah bertemu dengan seseorang sepertimu, yang bisa membuatku merasa begitu istimewa hanya dengan menjadi dirimu sendiri."
+                </p>
+                <p>
+                    "Aku ingin kamu tahu bahwa perasaanku padamu sungguh tulus. Kamu membuatku ingin menjadi pribadi yang lebih baik, 
+                    dan aku tidak bisa membayangkan hari-hariku tanpa kehadiranmu."
+                </p>
+                <p class="signature">- Dari hatiku untukmu</p>
+            </div>
+            
+            <div class="question">
+                Maukah kamu menjadi yang spesial dalam hidupku?
+            </div>
+            
+            <div class="buttons">
+                <button class="btn btn-yes" id="btn-yes">
+                    <i class="fas fa-heart"></i> Ya, Mau!
+                </button>
+                <button class="btn btn-no" id="btn-no">
+                    <i class="fas fa-times"></i> Tidak
+                </button>
+            </div>
+            
+            <button class="btn-back" id="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Login
+            </button>
+            
+            <!-- WhatsApp Form -->
+            <div class="whatsapp-form" id="whatsapp-form">
+                <h3><i class="fab fa-whatsapp"></i> Kirim Jawaban via WhatsApp</h3>
+                
+                <div class="form-group-wa">
+                    <label for="wa-name">Nama Kamu:</label>
+                    <input type="text" id="wa-name" placeholder="Masukkan namamu" required>
+                </div>
+                
+                <div class="form-group-wa">
+                    <label for="wa-message">Pesan Tambahan (opsional):</label>
+                    <input type="text" id="wa-message" placeholder="Tulis pesan tambahan...">
+                </div>
+                
+                <button class="btn-wa" id="btn-wa-send">
+                    <i class="fab fa-whatsapp"></i> Kirim Jawaban Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Login berhasil! Mengarahkan ke Portal Perasaan...</span>
+    </div>
+
+    <script>
+        // Function to create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 25;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 25 + 8;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // Random color
+                const colors = [
+                    'rgba(232, 67, 147, 0.25)',
+                    'rgba(253, 121, 168, 0.25)',
+                    'rgba(139, 92, 246, 0.25)',
+                    'rgba(99, 102, 241, 0.25)'
+                ];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = randomColor;
+                
+                // Random animation duration
+                const duration = Math.random() * 25 + 15;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                const delay = Math.random() * 8;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Function to create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartCount = 25;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-shape');
+                heart.innerHTML = '❤';
+                
+                // Random position
+                const posX = Math.random() * 100;
+                heart.style.left = `${posX}%`;
+                
+                // Random size
+                const size = Math.random() * 35 + 25;
+                heart.style.fontSize = `${size}px`;
+                
+                // Random animation delay and duration
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 15 + 15;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const lovePage = document.getElementById('love-page');
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const btnBack = document.getElementById('btn-back');
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo = document.getElementById('btn-no');
+        const usernameDisplay = document.getElementById('username-display');
+        const notification = document.getElementById('notification');
+        const whatsappForm = document.getElementById('whatsapp-form');
+        const btnWaSend = document.getElementById('btn-wa-send');
+        const waNameInput = document.getElementById('wa-name');
+        const waMessageInput = document.getElementById('wa-message');
+        
+        // Move the "No" button when hovered
+        btnNo.addEventListener('mouseover', () => {
+            // Random position
+            const x = Math.random() * 250 - 125;
+            const y = Math.random() * 250 - 125;
+            
+            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        
+        // Handle form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            
+            // Simple validation
+            if(username === '' || password === '') {
+                showNotification('error', 'Harap isi username dan password!');
+                return;
+            }
+            
+            if(password.length < 6) {
+                showNotification('error', 'Password minimal 6 karakter!');
+                return;
+            }
+            
+            // Show success notification
+            showNotification('success', 'Login berhasil! Mengarahkan ke Portal Perasaan...');
+            
+            // Simulate login process
+            setTimeout(() => {
+                // Save username for display
+                usernameDisplay.textContent = username;
+                
+                // Switch to love page
+                loginPage.classList.remove('active-page');
+                lovePage.classList.add('active-page');
+                
+                // Create hearts for love page
+                createHearts();
+            }, 2500);
+        });
+        
+        // Handle back button
+        btnBack.addEventListener('click', () => {
+            lovePage.classList.remove('active-page');
+            loginPage.classList.add('active-page');
+            
+            // Reset form
+            loginForm.reset();
+            whatsappForm.style.display = 'none';
+        });
+        
+        // Handle "Yes" button
+        btnYes.addEventListener('click', () => {
+            showNotification('success', 'Ayo kirim jawabanmu via WhatsApp! ❤️');
+            whatsappForm.style.display = 'block';
+            waNameInput.focus();
+        });
+        
+        // Handle WhatsApp send button
+        btnWaSend.addEventListener('click', () => {
+            const name = waNameInput.value.trim();
+            const customMessage = waMessageInput.value.trim();
+            
+            if(name === '') {
+                showNotification('error', 'Harap masukkan nama kamu!');
+                waNameInput.focus();
+                return;
+            }
+            
+            // WhatsApp message
+            const whatsappMessage = `Hai, aku ${name} mau memberitahukan jawabanku untukmu. Aku menerima perasaanmu! ${customMessage ? `Pesan tambahan: ${customMessage}` : ''}`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            
+            // WhatsApp API URL (replace phone number with your own)
+            const whatsappURL = `https://wa.me/6281234567890?text=${encodedMessage}`;
+            
+            // Open WhatsApp
+            window.open(whatsappURL, '_blank');
+            
+            // Show confirmation
+            showNotification('success', 'Jawabanmu berhasil dikirim via WhatsApp! ❤️');
+            
+            // Reset form
+            waNameInput.value = '';
+            waMessageInput.value = '';
+            whatsappForm.style.display = 'none';
+            
+            // Show celebration hearts
+            celebrate();
+        });
+        
+        // Show notification function
+        function showNotification(type, message) {
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.className = 'notification show';
+            if(type === 'error') {
+                notification.classList.add('error');
+            }
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3500);
+        }
+        
+        // Celebration function
+        function celebrate() {
+            const container = document.querySelector('.container');
+            
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart-shape');
+                    heart.innerHTML = '❤';
+                    heart.style.position = 'absolute';
+                    heart.style.fontSize = '35px';
+                    heart.style.color = '#e84393';
+                    heart.style.animation = 'falling 6s linear forwards';
+                    
+                    // Random position
+                    const posX = Math.random() * 80 + 10;
+                    heart.style.left = `${posX}%`;
+                    heart.style.top = '0';
+                    
+                    container.appendChild(heart);
+                    
+                    // Remove heart after animation
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 6000);
+                }, i * 100);
+            }
+        }
+        
+        // Initialize the page
+        window.addEventListener('load', () => {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
